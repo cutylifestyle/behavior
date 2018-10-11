@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">behavior</string>
     <string name="footer_behavior">com.sixin.behavior.FooterBehavior</string>
+    <string name="recycler_behavior">com.sixin.behavior.RecyclerViewBehavior</string>
 </resources>

@@ -70,7 +70,7 @@ public class FooterBehavior extends CoordinatorLayout.Behavior {
     //在AppBarLayout中的Behavior中并没有实现下列方法。其实这个方法的作用就是在本次滑动事件开始前做一些
     //准备工作可以实现这个方法
     //复写recyclerView的Behavior，在初始的事件流中下列方法没有被回调
-    //TODO 对于recyclerView的Behavior,后续的与滑动相关的方法有没有被回调
+    //对于recyclerView的Behavior,后续的与滑动相关的方法有没有被回调？都没有被调用
     @Override
     public void onNestedScrollAccepted(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View directTargetChild, @NonNull View target, int axes, int type) {
         Log.d(TAG, "onNestedScrollAccepted");
@@ -85,7 +85,8 @@ public class FooterBehavior extends CoordinatorLayout.Behavior {
     //RecyclerView就会调用dispatchNestedScroll方法，也就是说当不进行联动的时候onNestedScroll才会
     //被调用到.在这个方法中recyclerView的accepted是false,所以onNestedScroll不会被调用，CoordinateLayout的1360行的代码
     //也没有被调用，也就是说此时的滑动借助于recyclerView的自身的功能实现的
-    //TODO 滑翔方法在什么时候调用，停止嵌套滑动在什么时候被调用，下滑的时候，函数调用顺序是怎样的？
+    //TODO 通过图文的方式构建一次事件流的流程
+    //TODO 下滑的时候，函数调用顺序是怎样的？
     @Override
     public void onNestedPreScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View target, int dx, int dy, @NonNull int[] consumed, int type) {
         Log.d(TAG, "onNestedPreScroll-----------"+"\n"
@@ -100,5 +101,30 @@ public class FooterBehavior extends CoordinatorLayout.Behavior {
     public void onNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) {
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type);
         Log.d(TAG,"-------------------------------onNestedScroll----------------------");
+    }
+
+    //recyclerView的滑翔方法是在action_up的时候被调用的，当然是要在一定的最小加速度之上才认为是滑翔的
+    // ------>调用CoordinateLayout的onNestedPreFling方法
+    //接着调用了AppBarLayout的onNestedPreFling，返回false.也就是不做处理。recyclerView应为accepted是false。
+    //所以没有回调这个方法。在FooterBehavior也不处理的情况下，返回值也是false.最终导致recyclerView调用
+    //dispatchNestedFling方法。onNestedPreFling被调用的作用实际上是在recyclerView自身滑翔之前，让整体
+    //的view能够做一些处理。------->调用CoordinateLayout的onNestedFling方法-------->AppBarLayout没有做
+    //处理，返回值是false,recyclerView以及footer本身就不谈了。直接导致CoordinateLayout的onChildViewsChanged
+    //方法没有被调用到.通过手动滑动我们可以发现一个现象，在联动没有完成前，无论你的加速度多大，都没有办法
+    //实现滑翔，只有联动完成之后，recyclerView自身才可以完成滑翔
+    @Override
+    public boolean onNestedPreFling(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View target, float velocityX, float velocityY) {
+        return super.onNestedPreFling(coordinatorLayout, child, target, velocityX, velocityY);
+    }
+
+    @Override
+    public boolean onNestedFling(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View target, float velocityX, float velocityY, boolean consumed) {
+        return super.onNestedFling(coordinatorLayout, child, target, velocityX, velocityY, consumed);
+    }
+
+    //停止嵌套滑动实在action_up中，并且应该是滑翔完毕之后调用，或者没有滑翔之后调用的
+    @Override
+    public void onStopNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View target, int type) {
+        super.onStopNestedScroll(coordinatorLayout, child, target, type);
     }
 }

@@ -76,6 +76,16 @@ public class FooterBehavior extends CoordinatorLayout.Behavior {
         Log.d(TAG, "onNestedScrollAccepted");
     }
 
+    //向上滑动的时候dy是正值，向下滑动的时候dy是负值
+    //AppBarLayout向上移动一段距离之后，为什么就不再滑动了?
+    //大概的原理就是滑动有一个总距离大小限制，超过这个范围，就不再调用滑动方法，而是直接返回消费距离0
+    //AppBarLayout不滑动了，RecyclerView是如何继续滑动的？
+    //首先RecyclerView随着AppBarLayout上移的时候上移，是调用了CoordinateLayout的1360行的代码，但是当
+    //AppBarLayout滑到尽头的时候，上面的方法就不再被调用了。当AppBarLayout不再滑动的时候，下方的
+    //RecyclerView就会调用dispatchNestedScroll方法，也就是说当不进行联动的时候onNestedScroll才会
+    //被调用到.在这个方法中recyclerView的accepted是false,所以onNestedScroll不会被调用，CoordinateLayout的1360行的代码
+    //也没有被调用，也就是说此时的滑动借助于recyclerView的自身的功能实现的
+    //TODO 滑翔方法在什么时候调用，停止嵌套滑动在什么时候被调用，下滑的时候，函数调用顺序是怎样的？
     @Override
     public void onNestedPreScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View target, int dx, int dy, @NonNull int[] consumed, int type) {
         Log.d(TAG, "onNestedPreScroll-----------"+"\n"
@@ -84,5 +94,11 @@ public class FooterBehavior extends CoordinatorLayout.Behavior {
                 +"dy:"+dy+"\n"
                 +"dx:"+dx+"\n"
                 +"type:"+type);
+    }
+
+    @Override
+    public void onNestedScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int type) {
+        super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, type);
+        Log.d(TAG,"-------------------------------onNestedScroll----------------------");
     }
 }

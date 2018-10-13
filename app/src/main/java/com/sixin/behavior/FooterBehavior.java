@@ -85,8 +85,7 @@ public class FooterBehavior extends CoordinatorLayout.Behavior {
     //RecyclerView就会调用dispatchNestedScroll方法，也就是说当不进行联动的时候onNestedScroll才会
     //被调用到.在这个方法中recyclerView的accepted是false,所以onNestedScroll不会被调用，CoordinateLayout的1360行的代码
     //也没有被调用，也就是说此时的滑动借助于recyclerView的自身的功能实现的
-    //TODO 通过图文的方式构建一次事件流的流程
-    //TODO 下滑的时候，函数调用顺序是怎样的？
+
     @Override
     public void onNestedPreScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View target, int dx, int dy, @NonNull int[] consumed, int type) {
         Log.d(TAG, "onNestedPreScroll-----------"+"\n"

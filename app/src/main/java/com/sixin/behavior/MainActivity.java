@@ -11,7 +11,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     //TODO app:layout_scrollFlags="scroll|enterAlways"的作用
-    //
+    //TODO 实现FooterBehavior
 
     private RecyclerView mRecyclerView;
     private List<String> mData = new ArrayList<>();

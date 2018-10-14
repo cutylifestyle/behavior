@@ -1,5 +1,7 @@
 package com.sixin.behavior;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -8,6 +10,7 @@ import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 
 public class FooterBehavior extends CoordinatorLayout.Behavior {
 
@@ -85,6 +88,7 @@ public class FooterBehavior extends CoordinatorLayout.Behavior {
     //RecyclerView就会调用dispatchNestedScroll方法，也就是说当不进行联动的时候onNestedScroll才会
     //被调用到.在这个方法中recyclerView的accepted是false,所以onNestedScroll不会被调用，CoordinateLayout的1360行的代码
     //也没有被调用，也就是说此时的滑动借助于recyclerView的自身的功能实现的
+    private boolean isRunning = false;
 
     @Override
     public void onNestedPreScroll(@NonNull CoordinatorLayout coordinatorLayout, @NonNull View child, @NonNull View target, int dx, int dy, @NonNull int[] consumed, int type) {
@@ -94,6 +98,65 @@ public class FooterBehavior extends CoordinatorLayout.Behavior {
                 +"dy:"+dy+"\n"
                 +"dx:"+dx+"\n"
                 +"type:"+type);
+        Log.e(TAG, "onNestedPreScroll-----------" + "\n"
+                + target.getTop());
+        if (dy != 0) {
+            if (target.getTop() == 0 && !isRunning) {
+                isRunning = true;
+                Log.w(TAG, "onNestedPreScroll-------------");
+                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(child, "translationY", 0f, child.getMeasuredHeight());
+                objectAnimator.setDuration(500);
+                objectAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+                objectAnimator.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+                objectAnimator.start();
+            } else if (target.getTop() == 400 && isRunning) {
+                isRunning = false;
+                Log.w(TAG, "onNestedPreScroll-------------1111111111");
+                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(child, "translationY",  child.getMeasuredHeight(),0f);
+                objectAnimator.setDuration(500);
+                objectAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+                objectAnimator.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+                objectAnimator.start();
+            }
+        }
+
+
     }
 
     @Override

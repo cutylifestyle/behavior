@@ -12,6 +12,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     //TODO app:layout_scrollFlags="scroll|enterAlways"的作用
     //TODO FloatingActionButton  Snaker的使用 配合Behavior的使用
+    //TODO CollapsingToolbarLayout源码分析
     //TODO 仿新浪微博
     //TODO https://github.com/Mike-bel/MDStudySamples
 

@@ -100,61 +100,61 @@ public class FooterBehavior extends CoordinatorLayout.Behavior {
                 +"type:"+type);
         Log.e(TAG, "onNestedPreScroll-----------" + "\n"
                 + target.getTop());
-        if (dy != 0) {
-            if (target.getTop() == 0 && !isRunning) {
-                isRunning = true;
-                Log.w(TAG, "onNestedPreScroll-------------");
-                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(child, "translationY", 0f, child.getMeasuredHeight());
-                objectAnimator.setDuration(500);
-                objectAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
-                objectAnimator.addListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                });
-                objectAnimator.start();
-            } else if (target.getTop() == 400 && isRunning) {
-                isRunning = false;
-                Log.w(TAG, "onNestedPreScroll-------------1111111111");
-                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(child, "translationY",  child.getMeasuredHeight(),0f);
-                objectAnimator.setDuration(500);
-                objectAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
-                objectAnimator.addListener(new Animator.AnimatorListener() {
-                    @Override
-                    public void onAnimationStart(Animator animation) {
-
-                    }
-
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                    }
-
-                    @Override
-                    public void onAnimationCancel(Animator animation) {
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animator animation) {
-
-                    }
-                });
-                objectAnimator.start();
-            }
-        }
+//        if (dy != 0) {
+//            if (target.getTop() == 0 && !isRunning) {
+//                isRunning = true;
+//                Log.w(TAG, "onNestedPreScroll-------------");
+//                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(child, "translationY", 0f, child.getMeasuredHeight());
+//                objectAnimator.setDuration(500);
+//                objectAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+//                objectAnimator.addListener(new Animator.AnimatorListener() {
+//                    @Override
+//                    public void onAnimationStart(Animator animation) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onAnimationEnd(Animator animation) {
+//                    }
+//
+//                    @Override
+//                    public void onAnimationCancel(Animator animation) {
+//                    }
+//
+//                    @Override
+//                    public void onAnimationRepeat(Animator animation) {
+//
+//                    }
+//                });
+//                objectAnimator.start();
+//            } else if (target.getTop() == 400 && isRunning) {
+//                isRunning = false;
+//                Log.w(TAG, "onNestedPreScroll-------------1111111111");
+//                ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(child, "translationY",  child.getMeasuredHeight(),0f);
+//                objectAnimator.setDuration(500);
+//                objectAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
+//                objectAnimator.addListener(new Animator.AnimatorListener() {
+//                    @Override
+//                    public void onAnimationStart(Animator animation) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onAnimationEnd(Animator animation) {
+//                    }
+//
+//                    @Override
+//                    public void onAnimationCancel(Animator animation) {
+//                    }
+//
+//                    @Override
+//                    public void onAnimationRepeat(Animator animation) {
+//
+//                    }
+//                });
+//                objectAnimator.start();
+//            }
+//        }
 
 
     }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    //TODO 单独设置snap为什么没用
     //TODO app:layout_scrollFlags="scroll|enterAlways"的作用
     //TODO FloatingActionButton  Snaker的使用 配合Behavior的使用
     //TODO CollapsingToolbarLayout源码分析
